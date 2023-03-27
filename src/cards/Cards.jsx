@@ -77,8 +77,11 @@ function Cards() {
                 }), // body data type must match "Content-Type" header
             }).then((res) => res.json()).then((res) => {
                 console.log(res)
+                alert("card successfully added")
 
             }).catch((err) => {
+                alert("card cannot be added")
+
                 console.log(err)
             })
         }
