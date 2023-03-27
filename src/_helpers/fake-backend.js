@@ -24,19 +24,35 @@ function fakeBackend() {
 
             // route functions
 
-            function authenticate() {
+            async function authenticate() {
                 const { username, password } = body();
-                const user = users.find(x => x.username === username && x.password === password);
+                console.log({ email: username, password })
 
-                if (!user) return error('Username or password is incorrect');
+                await fetch('https://interview-api.onrender.com/v1/auth/login', {
+                    method: "POST", // *GET, POST, PUT, DELETE, etc.
+                    headers: {
+                        "Content-Type": "application/json",
+                        // 'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: JSON.stringify({ email: username, password }), // body data type must match "Content-Type" header
+                }).then((res) => res.json()).then((res) => {
+                    console.log(res)
+                    return ok({
+                        id: res.user.id,
+                        username: res.user.name,
+                        firstName: res.user.name,
+                        lastName: res.user.name,
+                        token: res.tokens.access.token
+                    })
+                }).catch((err) => {
+                    console.log(err)
+                    error('Username or password is incorrect')
+                })
+                // const user = users.find(x => x.username === username && x.password === password);
 
-                return ok({
-                    id: user.id,
-                    username: user.username,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    token: 'fake-jwt-token'
-                });
+                // if (!user) return error('Username or password is incorrect');
+
+
             }
 
             function getUsers() {
@@ -59,11 +75,11 @@ function fakeBackend() {
             }
 
             function isAuthenticated() {
-                return opts.headers['Authorization'] === 'Bearer fake-jwt-token';
+                return opts.headers['Authorization'];
             }
 
             function body() {
-                return opts.body && JSON.parse(opts.body);    
+                return opts.body && JSON.parse(opts.body);
             }
         });
     }

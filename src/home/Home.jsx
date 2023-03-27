@@ -12,7 +12,7 @@ function Home() {
 
     useEffect(() => {
         dispatch(userActions.getAll());
-        
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -24,7 +24,7 @@ function Home() {
             {users.length &&
                 <ul>
                     {users.map(user =>
-                        <li key={user.id}>{user.firstName} {user.lastName}</li>
+                        <li key={authUser.id}>{authUser.firstName}</li>
                     )}
                 </ul>
             }

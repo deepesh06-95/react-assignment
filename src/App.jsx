@@ -4,6 +4,8 @@ import { history } from '_helpers';
 import { Nav, PrivateRoute } from '_components';
 import { Home } from 'home';
 import { Login } from 'login';
+import { Cards } from 'cards/Cards';
+import { SeeCards } from 'cards/SeeCards';
 
 export { App };
 
@@ -18,11 +20,27 @@ function App() {
             <Nav />
             <div className="container pt-4 pb-4">
                 <Routes>
-                <Route
+                    <Route
                         path="/"
                         element={
                             <PrivateRoute>
                                 <Home />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="/cards"
+                        element={
+                            <PrivateRoute>
+                                <SeeCards />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="/cards/new"
+                        element={
+                            <PrivateRoute>
+                                <Cards />
                             </PrivateRoute>
                         }
                     />
